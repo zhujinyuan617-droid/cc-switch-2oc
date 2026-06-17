@@ -79,7 +79,18 @@ impl Provider {
     pub fn uses_managed_account_auth(&self) -> bool {
         self.is_github_copilot()
             || self.is_codex_oauth()
+            || self.uses_claude_oauth_account()
             || self.claude_base_url_contains("chatgpt.com/backend-api/codex")
+    }
+
+    pub fn uses_claude_oauth_account(&self) -> bool {
+        self.meta
+            .as_ref()
+            .and_then(|meta| meta.auth_binding.as_ref())
+            .is_some_and(|binding| {
+                binding.source == AuthBindingSource::ManagedAccount
+                    && binding.auth_provider.as_deref() == Some("claude_oauth")
+            })
     }
 
     fn provider_type(&self) -> Option<&str> {

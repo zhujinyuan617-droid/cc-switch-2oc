@@ -1739,6 +1739,39 @@ impl ProviderService {
                 // Additive mode apps - all providers coexist in the same file,
                 // no backfill needed (backfill is for exclusive mode apps like Claude/Codex/Gemini)
                 if !app_type.is_additive_mode() {
+                    // For Claude official-account providers, refresh the stored OAuth
+                    // snapshot from the live .credentials.json before switching away.
+                    if matches!(app_type, AppType::Claude) {
+                        if let Some(current_provider) = providers.get(&current_id) {
+                            if let Some(binding) = current_provider
+                                .meta
+                                .as_ref()
+                                .and_then(|meta| meta.auth_binding.as_ref())
+                            {
+                                if binding.source
+                                    == crate::provider::AuthBindingSource::ManagedAccount
+                                    && binding.auth_provider.as_deref()
+                                        == Some(crate::claude_oauth::auth_provider())
+                                {
+                                    let refresh_id = binding
+                                        .account_id
+                                        .as_deref()
+                                        .unwrap_or(current_id.as_str());
+                                    if let Err(e) =
+                                        crate::claude_oauth::refresh_account_from_live(refresh_id)
+                                    {
+                                        log::warn!(
+                                            "Failed to refresh Claude OAuth account snapshot before switching: {e}"
+                                        );
+                                        result.warnings.push(format!(
+                                            "claude_oauth_refresh_failed:{refresh_id}"
+                                        ));
+                                    }
+                                }
+                            }
+                        }
+                    }
+
                     // Only backfill when switching to a different provider
                     if let Ok(live_config) = read_live_settings(app_type.clone()) {
                         if let Some(mut current_provider) = providers.get(&current_id).cloned() {

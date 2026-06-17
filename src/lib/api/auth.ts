@@ -1,6 +1,9 @@
 import { invoke } from "@tauri-apps/api/core";
 
-export type ManagedAuthProvider = "github_copilot" | "codex_oauth";
+export type ManagedAuthProvider =
+  | "github_copilot"
+  | "codex_oauth"
+  | "claude_oauth";
 
 export interface ManagedAuthAccount {
   id: string;
@@ -95,6 +98,22 @@ export async function authLogout(
   });
 }
 
+export async function authImportCurrentClaudeAccount(
+  label?: string,
+): Promise<ManagedAuthAccount> {
+  return invoke<ManagedAuthAccount>("auth_import_current_claude_account", {
+    label: label?.trim() || null,
+  });
+}
+
+export async function authApplyClaudeAccount(
+  accountId: string,
+): Promise<ManagedAuthAccount> {
+  return invoke<ManagedAuthAccount>("auth_apply_claude_account", {
+    accountId,
+  });
+}
+
 export const authApi = {
   authStartLogin,
   authPollForAccount,
@@ -103,4 +122,6 @@ export const authApi = {
   authRemoveAccount,
   authSetDefaultAccount,
   authLogout,
+  authImportCurrentClaudeAccount,
+  authApplyClaudeAccount,
 };

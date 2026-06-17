@@ -1182,7 +1182,6 @@ function ProviderFormFull({
     const isCodexOauthProvider =
       templatePreset?.providerType === "codex_oauth" ||
       initialData?.meta?.providerType === "codex_oauth";
-
     let settingsConfig: string;
 
     if (appId === "codex") {

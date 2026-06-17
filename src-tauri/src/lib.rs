@@ -3,6 +3,7 @@ mod app_store;
 mod auto_launch;
 mod claude_desktop_config;
 mod claude_mcp;
+mod claude_oauth;
 mod claude_plugin;
 mod codex_config;
 mod codex_history_migration;
@@ -1419,6 +1420,8 @@ pub fn run() {
             commands::auth_remove_account,
             commands::auth_set_default_account,
             commands::auth_logout,
+            commands::auth_import_current_claude_account,
+            commands::auth_apply_claude_account,
             // Copilot OAuth commands (multi-account support)
             commands::copilot_start_device_flow,
             commands::copilot_poll_for_auth,

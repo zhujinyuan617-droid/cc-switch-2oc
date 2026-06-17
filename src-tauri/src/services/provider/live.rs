@@ -525,6 +525,20 @@ pub(crate) fn write_live_with_common_config(
         return Ok(());
     }
 
+    if matches!(app_type, AppType::Claude) {
+        if let Some(binding) = effective_provider
+            .meta
+            .as_ref()
+            .and_then(|meta| meta.auth_binding.as_ref())
+        {
+            if binding.source == crate::provider::AuthBindingSource::ManagedAccount
+                && binding.auth_provider.as_deref() == Some(crate::claude_oauth::auth_provider())
+            {
+                crate::claude_oauth::apply_account_to_live(binding.account_id.as_deref())?;
+            }
+        }
+    }
+
     write_live_snapshot(app_type, &effective_provider)
 }
 

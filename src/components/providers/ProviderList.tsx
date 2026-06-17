@@ -32,6 +32,7 @@ import {
 import { useStreamCheck } from "@/hooks/useStreamCheck";
 import { ProviderCard } from "@/components/providers/ProviderCard";
 import { ProviderEmptyState } from "@/components/providers/ProviderEmptyState";
+import { ClaudeOAuthAccountPanel } from "@/components/providers/ClaudeOAuthAccountPanel";
 import {
   useAutoFailoverEnabled,
   useFailoverQueue,
@@ -360,11 +361,14 @@ export function ProviderList({
 
   if (sortedProviders.length === 0) {
     return (
-      <ProviderEmptyState
-        appId={appId}
-        onCreate={onCreate}
-        onImport={() => importMutation.mutate()}
-      />
+      <div className="mt-4 space-y-4">
+        {appId === "claude" && <ClaudeOAuthAccountPanel />}
+        <ProviderEmptyState
+          appId={appId}
+          onCreate={onCreate}
+          onImport={() => importMutation.mutate()}
+        />
+      </div>
     );
   }
 
@@ -444,6 +448,7 @@ export function ProviderList({
 
   return (
     <div className="mt-4 space-y-4">
+      {appId === "claude" && <ClaudeOAuthAccountPanel />}
       {claudeDesktopStatusMessages.length > 0 && (
         <div className="rounded-lg border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-sm text-amber-900 dark:text-amber-200">
           <div className="flex items-center gap-2 font-medium">

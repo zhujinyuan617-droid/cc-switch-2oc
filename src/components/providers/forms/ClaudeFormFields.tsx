@@ -80,6 +80,8 @@ interface ClaudeFormFieldsProps {
   isPartner?: boolean;
   partnerPromotionKey?: string;
 
+  // Claude official OAuth
+
   // GitHub Copilot OAuth
   isCopilotPreset?: boolean;
   usesOAuth?: boolean;
