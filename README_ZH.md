@@ -312,15 +312,18 @@ Claude 官方订阅账号 B
 
 > 建议切换账号前先关闭正在运行的 Claude Code，避免运行中同时读写 `.credentials.json`。
 
-#### Ubuntu / Debian 安装已构建的 `.deb`
+#### 安装预编译包
 
-如果你已经下载了本分支构建出的 Debian 安装包，可以直接安装：
+前往本项目的 **Releases** 页面下载对应系统的最新安装包：
+
+- Windows：下载 `.msi`，双击安装。
+- Ubuntu / Debian：下载 `.deb`，在下载目录执行：
 
 ```bash
-sudo apt install -y "./CC Switch_3.16.3_amd64.deb"
+sudo apt install -y ./xxx.deb
 ```
 
-启动：
+安装完成后启动：
 
 ```bash
 cc-switch
@@ -391,7 +394,7 @@ sudo apt install -y "./src-tauri/target/release/bundle/deb/CC Switch_3.16.3_amd6
 
 ### Windows 用户
 
-从 [Releases](../../releases) 页面下载最新版本的 `CC-Switch-v{版本号}-Windows.msi` 安装包或 `CC-Switch-v{版本号}-Windows-Portable.zip` 绿色版。
+从 **Releases** 页面下载最新的 `.msi` 安装包，双击安装即可。
 
 ### macOS 用户
 
@@ -423,11 +426,11 @@ paru -S cc-switch-bin
 
 ### Linux 用户
 
-从 [Releases](../../releases) 页面下载最新版本的 Linux 安装包：
+从 **Releases** 页面下载最新版本的 Linux 安装包：
 
-- `CC-Switch-v{版本号}-Linux.deb`（Debian/Ubuntu）
-- `CC-Switch-v{版本号}-Linux.rpm`（Fedora/RHEL/openSUSE）
-- `CC-Switch-v{版本号}-Linux.AppImage`（通用）
+- Ubuntu / Debian：下载 `.deb`，然后执行 `sudo apt install -y ./xxx.deb`
+- Fedora / RHEL / openSUSE：下载 `.rpm`
+- 通用 Linux：下载 `.AppImage`
 
 > **Flatpak**：官方 Release 不包含 Flatpak 包。如需使用，可从 `.deb` 自行构建 — 参见 [`flatpak/README.md`](flatpak/README.md)。
 

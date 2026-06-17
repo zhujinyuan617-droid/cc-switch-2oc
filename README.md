@@ -309,12 +309,15 @@ After importing both accounts, you can switch them directly from the **Claude Of
 
 > Before switching accounts, close any running Claude Code process to avoid concurrent reads/writes of `.credentials.json`.
 
-#### Install a prebuilt `.deb` on Ubuntu / Debian
+#### Install a prebuilt package
 
-If you have downloaded the Debian package built from this branch, install it with:
+Go to the project **Releases** page and download the latest package for your platform:
+
+- Windows: download the `.msi` installer and run it.
+- Ubuntu / Debian: download the `.deb` package, then install it from the download directory:
 
 ```bash
-sudo apt install -y "./CC Switch_3.16.3_amd64.deb"
+sudo apt install -y ./xxx.deb
 ```
 
 Launch:
@@ -388,7 +391,7 @@ The switch action writes the selected snapshot back to:
 
 ### Windows Users
 
-Download the latest `CC-Switch-v{version}-Windows.msi` installer or `CC-Switch-v{version}-Windows-Portable.zip` portable version from the [Releases](../../releases) page.
+Download the latest `.msi` installer from the **Releases** page and run it.
 
 ### macOS Users
 
@@ -420,11 +423,11 @@ paru -S cc-switch-bin
 
 ### Linux Users
 
-Download the latest Linux build from the [Releases](../../releases) page:
+Download the latest Linux build from the **Releases** page:
 
-- `CC-Switch-v{version}-Linux.deb` (Debian/Ubuntu)
-- `CC-Switch-v{version}-Linux.rpm` (Fedora/RHEL/openSUSE)
-- `CC-Switch-v{version}-Linux.AppImage` (Universal)
+- Ubuntu / Debian: download the `.deb` package, then install it with `sudo apt install -y ./xxx.deb`
+- Fedora / RHEL / openSUSE: download the `.rpm` package
+- Universal Linux: download the `.AppImage` package
 
 > **Flatpak**: Not included in official releases. You can build it yourself from the `.deb` — see [`flatpak/README.md`](flatpak/README.md) for instructions.
 
