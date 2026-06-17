@@ -290,6 +290,96 @@ For detailed guides on every feature, check out the **[User Manual](docs/user-ma
 
 ## Download & Installation
 
+### Branch enhancement: switch multiple Claude Code official subscription accounts
+
+This branch adds **Claude Code official subscription account switching** on top of upstream CC Switch. It stores multiple snapshots of Claude Code's official OAuth login state and switches the live credentials file:
+
+```text
+~/.claude/.credentials.json
+```
+
+It is useful when you have multiple Claude official subscription accounts, for example:
+
+```text
+Claude account A
+Claude account B
+```
+
+After importing both accounts, you can switch them directly from the **Claude Official Account Switcher** card at the top of the Claude Code page. You do not need to create one Claude Official provider for each account.
+
+> Before switching accounts, close any running Claude Code process to avoid concurrent reads/writes of `.credentials.json`.
+
+#### Install a prebuilt `.deb` on Ubuntu / Debian
+
+If you have downloaded the Debian package built from this branch, install it with:
+
+```bash
+sudo apt install -y "./CC Switch_3.16.3_amd64.deb"
+```
+
+Launch:
+
+```bash
+cc-switch
+```
+
+If Chinese text is rendered as boxes on Linux, install CJK fonts:
+
+```bash
+sudo apt install -y fonts-noto-cjk fonts-noto-color-emoji
+fc-cache -fv
+```
+
+#### Build the Ubuntu / Debian package from source
+
+```bash
+git clone -b claude-oauth-accounts https://github.com/zhujinyuan617-droid/cc-switch-2oc.git
+cd cc-switch-2oc
+
+sudo apt update
+sudo apt install -y \
+  build-essential \
+  pkg-config \
+  libwebkit2gtk-4.1-dev \
+  libgtk-3-dev \
+  libssl-dev \
+  libayatana-appindicator3-dev \
+  libxdo-dev \
+  librsvg2-dev \
+  xdg-utils \
+  fonts-noto-cjk \
+  fonts-noto-color-emoji
+
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+source "$HOME/.cargo/env"
+
+corepack enable
+corepack pnpm install
+corepack pnpm exec tauri build --bundles deb
+```
+
+Install the generated package:
+
+```bash
+sudo apt install -y "./src-tauri/target/release/bundle/deb/CC Switch_3.16.3_amd64.deb"
+```
+
+#### How to use the Claude official account switcher
+
+1. Close any running Claude Code process.
+2. Log in to Claude account A using Claude Code's official login flow.
+3. Open CC Switch and go to the **Claude Code** page.
+4. In the **Claude Official Account Switcher** card, set a label such as `Claude A`, then click **Import current Claude Code login state**.
+5. Log in to Claude account B using Claude Code.
+6. Return to CC Switch and import it as `Claude B`.
+7. Later, click **Switch** beside the desired account in the switcher card.
+
+The switch action writes the selected snapshot back to:
+
+```text
+~/.claude/.credentials.json
+```
+
 ### System Requirements
 
 - **Windows**: Windows 10 and above

@@ -293,6 +293,96 @@ CC Switch macOS 版本已通过 Apple 代码签名和公证，可直接下载安
 
 ## 下载安装
 
+### 本分支增强：Claude Code 官方订阅多账号切换
+
+本分支在原版 CC Switch 基础上增加了 **Claude Code 官方订阅账号切换** 功能，用于管理多个 Claude Code 官方 OAuth 登录态。核心机制是保存并切换：
+
+```text
+~/.claude/.credentials.json
+```
+
+适合以下场景：
+
+```text
+Claude 官方订阅账号 A
+Claude 官方订阅账号 B
+```
+
+导入后，可以在 Claude Code 页面顶部的 **Claude 官方账号切换** 卡片中直接切换账号，不需要为每个账号单独创建一个 Claude Official 供应商。
+
+> 建议切换账号前先关闭正在运行的 Claude Code，避免运行中同时读写 `.credentials.json`。
+
+#### Ubuntu / Debian 安装已构建的 `.deb`
+
+如果你已经下载了本分支构建出的 Debian 安装包，可以直接安装：
+
+```bash
+sudo apt install -y "./CC Switch_3.16.3_amd64.deb"
+```
+
+启动：
+
+```bash
+cc-switch
+```
+
+如果 Linux 下中文显示为方块或乱码，请安装中文字体：
+
+```bash
+sudo apt install -y fonts-noto-cjk fonts-noto-color-emoji
+fc-cache -fv
+```
+
+#### 从源码构建 Ubuntu / Debian 包
+
+```bash
+git clone -b claude-oauth-accounts https://github.com/zhujinyuan617-droid/cc-switch-2oc.git
+cd cc-switch-2oc
+
+sudo apt update
+sudo apt install -y \
+  build-essential \
+  pkg-config \
+  libwebkit2gtk-4.1-dev \
+  libgtk-3-dev \
+  libssl-dev \
+  libayatana-appindicator3-dev \
+  libxdo-dev \
+  librsvg2-dev \
+  xdg-utils \
+  fonts-noto-cjk \
+  fonts-noto-color-emoji
+
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+source "$HOME/.cargo/env"
+
+corepack enable
+corepack pnpm install
+corepack pnpm exec tauri build --bundles deb
+```
+
+构建完成后安装：
+
+```bash
+sudo apt install -y "./src-tauri/target/release/bundle/deb/CC Switch_3.16.3_amd64.deb"
+```
+
+#### 使用 Claude 官方账号切换
+
+1. 关闭正在运行的 Claude Code。
+2. 用 Claude Code 官方流程登录账号 A。
+3. 打开 CC Switch，进入 **Claude Code** 页面。
+4. 在顶部 **Claude 官方账号切换** 卡片中填写标签，例如 `Claude A`，点击 **导入当前 Claude Code 登录态**。
+5. 再用 Claude Code 登录账号 B。
+6. 回到 CC Switch，同样导入为 `Claude B`。
+7. 以后直接在 **Claude 官方账号切换** 卡片里点击对应账号的 **切换** 按钮即可。
+
+切换按钮会把选中账号的登录态写回：
+
+```text
+~/.claude/.credentials.json
+```
+
 ### 系统要求
 
 - **Windows**：Windows 10 及以上
